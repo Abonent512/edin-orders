@@ -1,0 +1,2 @@
+# Optional browser QA only, not installed in the production image.
+playwright==1.62.0

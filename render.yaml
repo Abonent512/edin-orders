@@ -1,0 +1,22 @@
+# Blueprint: only a FREE web service. No expiring Render Postgres database.
+services:
+  - type: web
+    name: edin-orders-abonent512
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: 'true'
+      - key: DEMO_MODE
+        value: 'true'
+      - key: DATA_DIR
+        value: /tmp/edin
+      - key: FORWARDED_ALLOW_IPS
+        value: '*'

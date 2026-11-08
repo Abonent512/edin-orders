@@ -1,0 +1,10 @@
+import {copyFile,mkdir,readdir,readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+await mkdir('dist/docs-assets',{recursive:true});
+for(const file of ['swagger-ui-bundle.js','swagger-ui.css'])await copyFile('node_modules/swagger-ui-dist/'+file,'dist/docs-assets/'+file);
+const assets=(await readdir('dist/assets')).map(f=>'/assets/'+f);
+const fonts=(await readdir('dist/fonts')).filter(f=>f.endsWith('.ttf')).map(f=>'/fonts/'+f);
+const tag=createHash('sha256').update(assets.join(',')).digest('hex').slice(0,10);
+let sw=await readFile('dist/sw.js','utf8');
+sw=sw.replace("'edin-shell-v1'",JSON.stringify('edin-shell-'+tag)).replace("['/mobile/','/icon.svg']",JSON.stringify(['/mobile/','/icon.svg','/icon-192.png','/icon-512.png',...assets,...fonts]));
+await writeFile('dist/sw.js',sw);

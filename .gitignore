@@ -1,0 +1,14 @@
+.env
+.venv/
+data/
+backups/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+frontend/*.tsbuildinfo
+frontend/dist/
+mobile/build/
+work-test/
+*.keystore
+*.jks
+*.log
