@@ -19,7 +19,7 @@ def package(destination):
             relative=path.relative_to(ROOT)
             if relative.parts[0] not in ALLOWED and str(relative) not in ROOT_FILES:continue
             if any(p in SKIP_DIRS for p in relative.parts[:-1]):continue
-            if path.name=='.env' or path.suffix in {'.keystore','.jks','.pyc','.tsbuildinfo','.log'}:continue
+            if path.name=='.env' or path.suffix in {'.keystore','.jks','.pyc','.tsbuildinfo','.log','.zip','.sha256'}:continue
             archive.write(path,Path('edin-case9')/relative)
     digest=hashlib.sha256(destination.read_bytes()).hexdigest()
     destination.with_suffix(destination.suffix+'.sha256').write_text(digest+'  '+destination.name+'\n')
