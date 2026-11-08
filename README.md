@@ -4,6 +4,12 @@
 
 Покупатель оформляет заказ на сайте или в Android-приложении, оператор переводит его по этапам, оба клиента получают единое состояние из общего API. В комплекте веб-клиент, мобильный интерфейс/PWA, исходники Android-клиента, FastAPI backend, SQLite/PostgreSQL, OpenAPI, тесты и Docker.
 
+## Открыть опубликованный проект
+
+[Веб-клиент](https://edin-orders-abonent512.onrender.com/) · [Мобильный клиент](https://edin-orders-abonent512.onrender.com/mobile/) · [Android APK](https://edin-orders-abonent512.onrender.com/downloads/edin-android-demo.apk) · [API](https://edin-orders-abonent512.onrender.com/api/docs)
+
+Для проверки выберите «Покупатель» в обоих клиентах; «Оператор» открывайте в другом браузере или приватном окне. В APK укажите адрес сервера `https://edin-orders-abonent512.onrender.com`. Подробнее: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ## Быстро посмотреть на компьютере
 
 Нужен Python 3.12+. Для пересборки фронтенда нужен Node.js 22+. В архив включена готовая веб-сборка: повторно собирать её не требуется.

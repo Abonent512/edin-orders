@@ -10,6 +10,7 @@ import json
 import os
 import re
 from pathlib import Path
+from urllib.parse import urlsplit, unquote
 
 from playwright.async_api import async_playwright, expect
 
@@ -19,7 +20,15 @@ async def run(base, output):
     errors=[]
     async with async_playwright() as p:
         executable=os.getenv('CHROMIUM_PATH') or ('/usr/bin/chromium' if Path('/usr/bin/chromium').is_file() else None)
-        browser=await p.chromium.launch(executable_path=executable,headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+        proxy=None
+        proxy_url=os.getenv('HTTPS_PROXY') or os.getenv('https_proxy') or os.getenv('HTTP_PROXY') or os.getenv('http_proxy')
+        if proxy_url:
+            parsed=urlsplit(proxy_url)
+            proxy={'server':f'{parsed.scheme}://{parsed.hostname}:{parsed.port or 8080}',
+                   'bypass':','.join(filter(None,[os.getenv('NO_PROXY') or os.getenv('no_proxy'),'127.0.0.1','localhost']))}
+            if parsed.username:proxy['username']=unquote(parsed.username)
+            if parsed.password:proxy['password']=unquote(parsed.password)
+        browser=await p.chromium.launch(executable_path=executable,headless=True,proxy=proxy,args=['--no-sandbox','--disable-dev-shm-usage'])
         desktop=await browser.new_context(viewport={'width':1440,'height':1040},reduced_motion='reduce')
         phone=await browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True,device_scale_factor=1,reduced_motion='reduce')
         operator=await browser.new_context(viewport={'width':1440,'height':1000},reduced_motion='reduce')
